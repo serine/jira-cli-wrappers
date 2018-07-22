@@ -6,5 +6,38 @@
 
 ## Install and usage
 
-coming shortly..
+- essential environmental variables to be set
+
+Hopefully all self explanatory. Note `JIRA_PASSWORD` is a sensible variable.
+I would say only use this from your machine that no one else has access to
+since your `JIRA_PASSWORD` string going to be in clear if you `ps aux | grep jira` 
+
+```
+jira_exec="java -jar ${JIRA_EXEC}"
+jira_usr=${JIRA_USER}
+jira_pass=${JIRA_PASSWORD}
+jira_proj=${JIRA_PROJECT}
+jira_server=${JIRA_SERVER}
+```
+
+I have a file that I source in before using jira
+
+```
+[biostation2]~$ cat ~/Documents/jira.txt 
+export JIRA_EXEC=/opt/atlassian-cli-4.5.0/lib/jira-cli-4.5.0.jar
+export JIRA_USER=serine
+export JIRA_PROJECT=foo
+export JIRA_SERVER="https://jira.blah.blah.edu"
+```
+
+I have a separate file that exports `JIRA_PASSWORD` since as I said this is rather sensible information
+
+- will need `sudo` for this
+
+```
+cd /usr/local/bin
+for i in /opt/jira-cli-wrappers/*.sh;do ln -s $i $(basename $i .sh);done
+```
+
+more coming shortly..
 
