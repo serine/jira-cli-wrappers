@@ -1,7 +1,7 @@
 #!/bin/bash
 
-orig=$(readlink -f ${BASH_SOURCE[0]})
-jira_dir=$(dirname $orig)
+jira_exec="jira"
+jira_chk="jira-check"
 
 jira_usr=${JIRA_USER}
 jira_pass=${JIRA_PASSWORD}
@@ -42,13 +42,9 @@ run_jira() {
     exit
   fi
 
-  java -jar ${jira_dir}/lib/jira-cli-4.5.0.jar --server ${jira_server}\
-                                               --user ${jira_usr}\
-                                               --password ${jira_pass}\
-                                               --project ${jira_proj}\
-                                               --action ${action}\
-                                               --transition ${issue_state}\
-                                              "${@}"
+  ${jira_exec} --action ${action}\
+               --transition "${issue_state}"\
+               "${@}"
 }
 
 issue_state=""
@@ -64,7 +60,7 @@ case "${1}" in
     issue_state="In Progress"
     ;;
   (follow|f)
-    issue_state="Follow Up"
+    issue_state="Follow up"
     ;;
   (todo|t)
     issue_state="To Do"
