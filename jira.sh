@@ -1,20 +1,28 @@
 #!/bin/bash
 
-orig=$(readlink -f ${BASH_SOURCE[0]})
-jira_dir=$(dirname $orig)
+#NOTE one could use hack similar to this one below
+# instead of hard coding jira path if they prefer
+# the ultimate goal here is simply to get jira_exec to point to jar file
+# e.g jira_exec="java -jar /some/path/to/lib/jira-cli-4.5.0.jar"
+
+#orig=$(readlink -f ${BASH_SOURCE[0]})
+#jira_dir=$(dirname $orig)
+#jira_exec="java -jar ${jira_dir}/lib/jira-cli-4.5.0.jar"
+
+jira_exec="java -jar ${JIRA_EXEC}"
+jira_chk="jira-check"
 
 jira_usr=${JIRA_USER}
 jira_pass=${JIRA_PASSWORD}
 jira_proj=${JIRA_PROJECT}
 jira_server=${JIRA_SERVER}
 
-jira_chk=jira-check.sh
-
 if [[ -s ${jira_chk} ]]
 then
   echo "ERROR: This shouldn't happend, ${jira_chk} not found"
 else
-  ${jira_dir}/${jira_chk}
+  #${jira_dir}/${jira_chk}
+  ${jira_chk}
   if [[ ${PIPESTATUS[0]} != 0 ]]
   then
     exit
@@ -39,8 +47,8 @@ then
   exit
 fi
 
-java -jar ${jira_dir}/lib/jira-cli-4.5.0.jar --server ${jira_server}\
-                                             --user ${jira_usr}\
-                                             --password ${jira_pass}\
-                                             --project ${jira_proj}\
-                                             "$@"
+${jira_exec} --server ${jira_server}\
+             --user ${jira_usr}\
+             --password ${jira_pass}\
+             --project ${jira_proj}\
+             "$@"
