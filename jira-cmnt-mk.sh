@@ -1,6 +1,7 @@
 #!/bin/bash
 
 jira_exec="jira"
+jira_usr=${JIRA_USER}
 action="addComment"
 
 if [[ -z "$@" ]]
